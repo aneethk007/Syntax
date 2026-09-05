@@ -78,5 +78,9 @@ This is a single HTML file, but it behaves differently depending on where you op
 - Light and dark mode, switchable per-user, remembered per device.
 - IBM Plex Sans + Lexend for type; a small custom `</>` mark as the logo.
 
-## Project structure
+
+## Credits
+
+Built by **Aneeth** & **Anush**.
+
 
