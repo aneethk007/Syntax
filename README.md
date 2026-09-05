@@ -1,4 +1,4 @@
-# Syntax
+
 # Syntax
 
 A single-file classroom dashboard, originally built for a Teachers Day hackathon. One shared space for a teacher and their students to run a live whiteboard, take attendance, hold public Q&A, poll the class, and collect feedback on the day's lesson — all in one chalkboard-turned-clean dashboard UI.
