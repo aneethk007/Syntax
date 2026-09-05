@@ -59,3 +59,7 @@ This is a single HTML file, but it behaves differently depending on where you op
 
 ## Project structure
 
+## Credits
+
+Built by **Aneeth** & **Anush**.
+
