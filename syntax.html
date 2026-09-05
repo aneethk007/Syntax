@@ -1,0 +1,1831 @@
+<title>Syntax</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  /* dark palette (also the pre-hydration default) */
+  --bg:#0F1613;
+  --panel:#171F1A;
+  --panel-2:#1E2721;
+  --chalk:#ECF0EA;
+  --chalk-dim:#93A199;
+  --red:#E2726A;
+  --yellow:#E8C468;
+  --sky:#7FBEE0;
+  --mint:#6FCB9B;
+  --pink:#E58AA5;
+  --line:#28322C;
+  --primary:#4FB79B;
+  --primary-strong:#6BCBB0;
+  --yellow-soft:rgba(232,196,104,0.18);
+  --mint-soft:rgba(111,203,155,0.16);
+  --red-soft:rgba(226,114,106,0.20);
+  --sky-soft:rgba(127,190,224,0.16);
+  --primary-soft:rgba(79,183,155,0.16);
+  --chalk-soft:rgba(236,240,234,0.08);
+  --glow:rgba(79,183,155,0.07);
+  --shadow-sm:0 1px 0 rgba(255,255,255,0.03) inset, 0 6px 16px rgba(0,0,0,0.32);
+  --shadow-md:0 1px 0 rgba(255,255,255,0.03) inset, 0 12px 30px rgba(0,0,0,0.4);
+  --radius-lg:16px;
+  --radius-md:10px;
+  --radius-sm:8px;
+}
+[data-theme="light"]{
+  --bg:#F5F7F4;
+  --panel:#FFFFFF;
+  --panel-2:#EDF1EC;
+  --chalk:#141B17;
+  --chalk-dim:#5B6B60;
+  --red:#C1443C;
+  --yellow:#A6720A;
+  --sky:#2C7BB0;
+  --mint:#1F8F5F;
+  --pink:#B85575;
+  --line:#DDE4DD;
+  --primary:#1F6F5C;
+  --primary-strong:#175547;
+  --yellow-soft:rgba(166,114,10,0.13);
+  --mint-soft:rgba(31,143,95,0.12);
+  --red-soft:rgba(193,68,60,0.11);
+  --sky-soft:rgba(44,123,176,0.12);
+  --primary-soft:rgba(31,111,92,0.11);
+  --chalk-soft:rgba(20,27,23,0.055);
+  --glow:rgba(31,111,92,0.05);
+  --shadow-sm:0 1px 2px rgba(16,23,19,0.05), 0 4px 14px rgba(16,23,19,0.05);
+  --shadow-md:0 2px 4px rgba(16,23,19,0.06), 0 14px 30px rgba(16,23,19,0.08);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--chalk);
+  font-family:'IBM Plex Sans',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:'Lexend',sans-serif;font-weight:700;text-wrap:balance;}
+button{font-family:inherit;}
+input,textarea,select{font-family:'IBM Plex Sans',sans-serif;}
+::selection{background:var(--yellow);color:#141B17;}
+button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--primary);outline-offset:2px;
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.content > div{animation:fadeInUp .25s ease;}
+.btn-primary,.btn-red,.btn-outline,.btn-demo,.vote-btn,.reaction-pill,.toggle-btn,.theme-toggle,.theme-toggle-fab,.btn-logout{
+  transition:filter .15s,border-color .15s,color .15s,background .15s,transform .1s;
+}
+.btn-primary:active,.btn-red:active,.btn-outline:active:not(:disabled),.btn-demo:active,
+.vote-btn:active:not(:disabled),.reaction-pill:active,.toggle-btn:active,
+.theme-toggle:active,.theme-toggle-fab:active,.btn-logout:active{
+  transform:scale(.96);
+}
+.app-shell{display:flex;min-height:100vh;background:var(--bg);color:var(--chalk);}
+.scrollbar::-webkit-scrollbar{width:8px;height:8px;}
+.scrollbar::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px;}
+
+/* ---------- Auth ---------- */
+.auth-wrap{
+  min-height:100vh;width:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 20% 20%, var(--glow), transparent 40%),
+    radial-gradient(circle at 80% 70%, var(--glow), transparent 40%),
+    var(--bg);
+  color:var(--chalk);
+  padding:24px;
+}
+.auth-card{
+  width:100%;max-width:440px;position:relative;
+  background:var(--panel);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-md);
+  border-radius:var(--radius-lg);
+  padding:32px 28px;
+}
+.theme-toggle-fab{
+  position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);background:var(--panel-2);color:var(--chalk-dim);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.theme-toggle-fab:hover{border-color:var(--primary);color:var(--primary);}
+.auth-logo{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px;}
+.auth-logo .emoji{font-size:34px;}
+.auth-logo h1{font-size:28px;margin:0;color:var(--chalk);}
+.auth-sub{text-align:center;color:var(--chalk-dim);margin:0 0 22px;font-size:13.5px;}
+.local-mode-note{
+  background:var(--sky-soft);border:1px solid var(--sky);color:var(--sky);
+  font-size:12px;line-height:1.5;padding:9px 12px;border-radius:var(--radius-sm);margin:0 0 18px;text-align:center;
+}
+.role-toggle{display:flex;gap:8px;margin-bottom:16px;background:var(--panel-2);padding:5px;border-radius:var(--radius-md);border:1px solid var(--line);}
+.role-btn{
+  flex:1;padding:9px 8px;border-radius:8px;border:none;cursor:pointer;
+  background:transparent;color:var(--chalk-dim);font-weight:600;font-size:13.5px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .15s,color .15s;
+}
+.role-btn:hover:not(.active){background:var(--panel);color:var(--chalk);}
+.role-btn.active{background:var(--primary);color:#fff;}
+.mode-toggle{display:flex;justify-content:center;gap:18px;margin-bottom:18px;}
+.mode-link{background:none;border:none;color:var(--chalk-dim);cursor:pointer;font-size:13.5px;padding:4px 2px;border-bottom:2px solid transparent;transition:color .15s;}
+.mode-link:hover:not(.active){color:var(--chalk);}
+.mode-link.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:12.5px;color:var(--chalk-dim);margin-bottom:6px;}
+.field input{
+  width:100%;padding:10px 12px;border-radius:var(--radius-sm);
+  border:1px solid var(--line);
+  background:var(--panel-2);color:var(--chalk);font-size:14px;outline:none;
+  transition:border-color .15s;
+}
+.field input:focus{border-color:var(--primary);}
+.btn-primary{
+  width:100%;padding:11px 14px;border-radius:var(--radius-sm);border:none;cursor:pointer;
+  background:var(--primary);color:#fff;font-weight:700;font-size:14.5px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-primary:hover{filter:brightness(1.08);}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed;}
+.auth-error{
+  background:var(--red-soft);border:1px solid var(--red);color:var(--red);
+  font-size:12.5px;padding:8px 10px;border-radius:var(--radius-sm);margin-bottom:14px;
+}
+.demo-row{display:flex;gap:10px;margin-top:18px;}
+.btn-demo{
+  flex:1;padding:9px 8px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:600;
+  background:transparent;color:var(--chalk-dim);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn-demo:hover{border-color:var(--primary);color:var(--primary);}
+.demo-divider{display:flex;align-items:center;gap:10px;margin:20px 0 4px;color:var(--chalk-dim);font-size:11px;}
+.demo-divider::before,.demo-divider::after{content:"";flex:1;height:1px;background:var(--line);}
+.copyright{text-align:center;color:var(--chalk-dim);font-size:11px;margin-top:22px;}
+
+/* ---------- Shell / Sidebar ---------- */
+.sidebar{
+  width:250px;flex-shrink:0;background:var(--panel);
+  border-right:1px solid var(--line);
+  display:flex;flex-direction:column;
+  position:relative;z-index:20;
+}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:20px 18px 14px;border-bottom:1px solid var(--line);}
+.sidebar-brand .emoji{font-size:24px;}
+.sidebar-brand h1{font-size:19px;margin:0;color:var(--chalk);}
+.nav-list{list-style:none;margin:0;padding:14px 10px;flex:1;}
+.nav-item{
+  display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:var(--radius-sm);
+  cursor:pointer;color:var(--chalk-dim);margin-bottom:4px;font-size:14px;font-weight:500;
+  transition:background .15s,color .15s;
+}
+.nav-item:hover{background:var(--panel-2);color:var(--chalk);}
+.nav-item.active{background:var(--primary-soft);color:var(--primary);}
+.nav-item.active .nav-chevron{opacity:1;transform:translateX(0);}
+.nav-item span.label{flex:1;}
+.nav-chevron{opacity:0;transform:translateX(-4px);transition:all .15s;}
+.teacher-list{padding:14px 16px;border-top:1px solid var(--line);}
+.teacher-list .heading{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--chalk-dim);margin-bottom:10px;}
+.teacher-row{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:13px;padding:4px 6px;margin-left:-6px;margin-right:-6px;border-radius:var(--radius-sm);transition:background .15s;}
+.teacher-row:hover{background:var(--panel-2);}
+.teacher-row:last-child{margin-bottom:0;}
+.teacher-avatar-wrap{position:relative;flex-shrink:0;line-height:0;}
+.status-dot{
+  position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;
+  border:2px solid var(--panel);
+}
+.status-dot.online{background:#3BA55D;}
+.status-dot.offline{background:#8992A3;}
+.teacher-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--chalk);}
+.teacher-status-label{font-size:10.5px;color:var(--chalk-dim);flex-shrink:0;}
+.sidebar-foot{border-top:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:8px;}
+.user-chip{display:flex;align-items:center;gap:10px;}
+.user-avatar{
+  width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;
+}
+.user-meta{overflow:hidden;}
+.user-meta .name{font-size:13.5px;font-weight:600;color:var(--chalk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-meta .role{font-size:11px;color:var(--chalk-dim);text-transform:capitalize;}
+.theme-toggle{
+  width:100%;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:transparent;color:var(--chalk-dim);cursor:pointer;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.theme-toggle:hover{border-color:var(--primary);color:var(--primary);}
+.btn-logout{
+  width:100%;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:transparent;color:var(--chalk-dim);cursor:pointer;font-size:12.5px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.btn-logout:hover{border-color:var(--red);color:var(--red);}
+.sidebar-credit{text-align:center;font-size:10px;color:var(--chalk-dim);opacity:.75;padding-top:2px;}
+
+.main-col{flex:1;min-width:0;display:flex;flex-direction:column;}
+.topbar{
+  display:flex;align-items:center;gap:12px;padding:14px 22px;
+  border-bottom:1px solid var(--line);background:var(--bg);
+  position:sticky;top:0;z-index:10;
+}
+.hamburger{display:none;background:none;border:1px solid var(--line);color:var(--chalk);padding:7px;border-radius:var(--radius-sm);cursor:pointer;transition:border-color .15s,color .15s;}
+.hamburger:hover{border-color:var(--primary);color:var(--primary);}
+.topbar h2{margin:0;font-size:21px;}
+.topbar .sub{color:var(--chalk-dim);font-size:12.5px;margin-top:2px;font-family:'IBM Plex Sans',sans-serif;font-weight:400;}
+.content{flex:1;padding:26px;overflow-y:auto;}
+.sidebar-overlay{display:none;}
+
+@media (max-width:860px){
+  .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);transition:transform .2s ease;width:250px;}
+  .sidebar.open{transform:translateX(0);}
+  .hamburger{display:inline-flex;align-items:center;justify-content:center;}
+  .sidebar-overlay.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:15;}
+  .content{padding:16px;}
+}
+
+/* ---------- Shared bits ---------- */
+.page-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.page-head h2{margin:0;font-size:23px;}
+.page-desc{color:var(--chalk-dim);font-size:13.5px;margin:0 0 22px;}
+.panel{
+  background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg);padding:20px;
+}
+.btn-red{
+  background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:9px 16px;
+  font-weight:700;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+}
+.btn-red:hover{filter:brightness(1.08);}
+.btn-red:disabled{opacity:.55;cursor:not-allowed;}
+.btn-outline{
+  background:transparent;color:var(--chalk);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:9px 16px;font-weight:600;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+.btn-outline:disabled{opacity:.5;cursor:not-allowed;}
+textarea,.ta{
+  width:100%;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:var(--panel-2);color:var(--chalk);font-size:14px;outline:none;resize:vertical;
+  transition:border-color .15s;
+}
+textarea:focus,.ta:focus{border-color:var(--primary);}
+.inline-error{color:var(--red);font-size:12.5px;margin-top:8px;}
+.empty-note{
+  color:var(--chalk-dim);font-size:13.5px;text-align:center;padding:34px 10px;
+  border:1px dashed var(--line);border-radius:var(--radius-lg);
+}
+.empty-note .icon{display:flex;justify-content:center;margin-bottom:10px;opacity:.4;}
+.badge{
+  font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;
+}
+.badge.open{background:var(--yellow-soft);color:var(--yellow);}
+.badge.resolved{background:var(--mint-soft);color:var(--mint);}
+.badge.unread{background:var(--red-soft);color:var(--red);}
+.badge.read{background:var(--chalk-soft);color:var(--chalk-dim);}
+
+/* ---------- Board ---------- */
+.board-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-bottom:16px;padding:14px 16px;}
+.color-dots{display:flex;gap:9px;align-items:center;}
+.color-dot{
+  width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.2);transition:transform .12s,border-color .12s;
+}
+.color-dot:hover{transform:scale(1.12);}
+.color-dot.active{border-color:var(--primary);}
+.tool-btn{
+  background:var(--panel-2);border:1px solid var(--line);color:var(--chalk-dim);
+  padding:8px;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s,color .15s;
+}
+.tool-btn:hover:not(.active){border-color:var(--chalk-dim);color:var(--chalk);}
+.tool-btn.active{border-color:var(--primary);color:var(--primary);}
+.thickness-wrap{display:flex;align-items:center;gap:8px;color:var(--chalk-dim);font-size:12.5px;}
+.thickness-wrap input[type=range]{accent-color:var(--primary);}
+.board-canvas-wrap{
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg);overflow:hidden;background:var(--panel-2);
+  display:flex;justify-content:center;
+}
+canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;background:#FFFFFF;}
+.board-img-wrap{
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg);overflow:hidden;background:var(--panel-2);min-height:200px;
+  display:flex;align-items:center;justify-content:center;
+}
+.board-img-wrap img{width:100%;display:block;background:#FFFFFF;}
+.live-dot{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--mint);}
+.live-dot .dot{width:7px;height:7px;border-radius:50%;background:var(--mint);animation:pulse 1.6s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* ---------- Roll Call ---------- */
+.date-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.date-row input[type=date]{
+  background:var(--panel-2);border:1px solid var(--line);color:var(--chalk);
+  padding:8px 12px;border-radius:var(--radius-sm);font-size:13.5px;transition:border-color .15s;
+}
+.date-row input[type=date]:focus{outline:none;border-color:var(--primary);}
+.roll-sheet{border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-md);overflow:hidden;}
+.roll-row{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 16px;
+  border-bottom:1px solid var(--line);transition:background .15s;
+}
+.roll-row:hover{background:var(--panel-2);}
+.roll-row:last-child{border-bottom:none;}
+.roll-name{display:flex;align-items:center;gap:10px;font-size:14px;}
+.toggle-pair{display:flex;gap:6px;}
+.toggle-btn{
+  padding:6px 13px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;cursor:pointer;
+  border:1px solid var(--line);background:transparent;color:var(--chalk-dim);
+  display:flex;align-items:center;gap:5px;
+}
+.toggle-btn:hover:not(.on){border-color:var(--chalk-dim);color:var(--chalk);}
+.toggle-btn.present.on{background:var(--mint-soft);border-color:var(--mint);color:var(--mint);}
+.toggle-btn.absent.on{background:var(--red-soft);border-color:var(--red);color:var(--red);}
+.summary-strip{display:flex;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+.stat-box{
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:14px 20px;flex:1;min-width:130px;text-align:center;
+}
+.stat-box .num{font-size:26px;font-weight:700;color:var(--primary);font-family:'Lexend',sans-serif;font-variant-numeric:tabular-nums;}
+.stat-box .lbl{font-size:11.5px;color:var(--chalk-dim);margin-top:2px;}
+.history-row{
+  display:flex;align-items:center;justify-content:space-between;padding:11px 16px;
+  border-bottom:1px solid var(--line);font-size:13.5px;transition:background .15s;
+}
+.history-row:hover{background:var(--panel-2);}
+.history-row:last-child{border-bottom:none;}
+
+/* ---------- Doubts ---------- */
+.doubt-form{margin-bottom:22px;}
+.doubt-form input{
+  width:100%;margin-bottom:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--line);
+  background:var(--panel-2);color:var(--chalk);font-size:14px;outline:none;
+}
+.doubt-form input:focus{border-color:var(--primary);}
+.doubt-card{
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:15px 16px;margin-bottom:12px;
+  transition:border-color .15s,box-shadow .15s;
+}
+.doubt-card:hover{border-color:var(--primary-soft);box-shadow:var(--shadow-md);}
+.doubt-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.doubt-subject{font-weight:700;color:var(--primary);font-size:14px;font-family:'Lexend',sans-serif;}
+.doubt-meta{font-size:11.5px;color:var(--chalk-dim);margin-top:2px;}
+.doubt-text{font-size:14px;margin:8px 0;line-height:1.5;}
+.doubt-reply{
+  margin-top:10px;padding:10px 12px;border-left:3px solid var(--mint);background:var(--mint-soft);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:13.5px;
+}
+.doubt-reply .who{font-size:11px;color:var(--mint);font-weight:700;margin-bottom:3px;}
+.reply-box{display:flex;gap:8px;margin-top:10px;}
+.reply-box input{flex:1;}
+.reaction-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.reaction-pill{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:20px;
+  border:1px solid var(--line);background:transparent;color:var(--chalk-dim);cursor:pointer;
+  font-size:13px;line-height:1.2;
+}
+.reaction-pill:hover{border-color:var(--yellow);}
+.reaction-pill.active{background:var(--yellow-soft);border-color:var(--yellow);color:var(--yellow);}
+.reaction-count{font-size:11px;font-weight:700;}
+.attach-btn{cursor:pointer;white-space:nowrap;user-select:none;}
+.attach-chip{
+  display:flex;align-items:center;gap:10px;margin-top:8px;padding:8px 12px;
+  border:1px solid var(--line);border-radius:var(--radius-sm);font-size:12.5px;background:var(--panel-2);
+}
+.attach-chip-view{margin-top:10px;}
+.attach-thumb{width:44px;height:44px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.attach-meta{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;}
+.attach-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.attach-size{color:var(--chalk-dim);font-size:11px;}
+.attach-remove{
+  background:none;border:none;color:var(--chalk-dim);cursor:pointer;font-size:13px;
+  margin-left:auto;padding:2px 4px;
+}
+.attach-remove:hover{color:var(--red);}
+
+/* ---------- Poll ---------- */
+.poll-topic-card{
+  border:1px solid var(--line);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg);padding:20px;margin-bottom:20px;
+  transition:box-shadow .15s;
+}
+.poll-topic-card:hover{box-shadow:var(--shadow-md);}
+.poll-topic-card h3{margin:0 0 4px;font-size:18px;}
+.poll-topic-card .status-line{font-size:12.5px;color:var(--chalk-dim);margin-bottom:16px;}
+.vote-row{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.vote-btn{
+  flex:1;min-width:150px;padding:16px;border-radius:var(--radius-md);border:1px solid var(--line);
+  background:var(--panel-2);color:var(--chalk);cursor:pointer;font-weight:700;font-size:14.5px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.vote-btn:hover:not(:disabled){border-color:var(--yellow);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.vote-btn:disabled{opacity:.6;cursor:not-allowed;}
+.vote-btn.repeat{color:var(--mint);}
+.vote-btn.moveon{color:var(--sky);}
+.bar-row{margin-bottom:12px;}
+.bar-row .bar-label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;font-variant-numeric:tabular-nums;}
+.bar-track{height:16px;border-radius:8px;background:var(--panel-2);overflow:hidden;border:1px solid var(--line);}
+.bar-fill{height:100%;border-radius:8px;transition:width .3s ease;}
+.bar-fill.repeat{background:var(--mint);}
+.bar-fill.moveon{background:var(--sky);}
+.new-poll-form{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;}
+.new-poll-form input{flex:1;min-width:200px;}
+
+/* ---------- Feedback wall ---------- */
+.feedback-form{margin-bottom:26px;}
+.star-picker{display:flex;gap:4px;margin-bottom:12px;}
+.star-btn{background:none;border:none;cursor:pointer;color:var(--chalk-dim);padding:2px;transition:color .12s,transform .12s;}
+.star-btn:hover{color:var(--yellow);transform:scale(1.15);}
+.star-btn.filled{color:var(--yellow);}
+.checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;font-size:13px;color:var(--chalk-dim);}
+.checkbox-row input{accent-color:var(--primary);width:15px;height:15px;}
+.avg-strip{display:flex;align-items:center;gap:10px;margin-bottom:20px;}
+.avg-strip .big{font-size:28px;font-weight:700;color:var(--primary);font-family:'Lexend',sans-serif;font-variant-numeric:tabular-nums;}
+.wall-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
+.sticky{
+  background:var(--panel);color:var(--chalk);border-radius:var(--radius-md);padding:16px;min-height:150px;
+  border:1px solid var(--line);border-left:3px solid var(--line);box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;gap:9px;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.sticky:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.sticky[data-rating="5"]{border-left-color:var(--mint);}
+.sticky[data-rating="4"]{border-left-color:var(--sky);}
+.sticky[data-rating="3"],.sticky[data-rating="2"],.sticky[data-rating="1"]{border-left-color:var(--yellow);}
+.sticky .stars{display:flex;gap:2px;color:var(--yellow);}
+.sticky .topic{font-weight:700;font-size:15px;font-family:'Lexend',sans-serif;}
+.sticky .comment{font-size:14px;flex:1;line-height:1.5;color:var(--chalk-dim);}
+.sticky .foot{
+  font-size:11.5px;color:var(--chalk-dim);display:flex;justify-content:space-between;
+  border-top:1px solid var(--line);padding-top:10px;
+}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo, useCallback } = React;
+
+/* ---- inline icon set (kept dependency-free — no external icon CDN) ---- */
+function Icon({ size = 18, color, fill = "none", style, children, ...rest }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={fill}
+      stroke={color || "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      style={{ flexShrink: 0, color: color, ...style }} {...rest}>
+      {children}
+    </svg>
+  );
+}
+function LogIn(props) { return <Icon {...props}><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" y1="12" x2="3" y2="12" /></Icon>; }
+function UserPlus(props) { return <Icon {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><line x1="19" y1="8" x2="19" y2="14" /><line x1="22" y1="11" x2="16" y2="11" /></Icon>; }
+function LogOut(props) { return <Icon {...props}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></Icon>; }
+function PenTool(props) { return <Icon {...props}><path d="m12 19 7-7 3 3-7 7-3-3z" /><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" /><path d="m2 2 7.586 7.586" /><circle cx="11" cy="11" r="2" /></Icon>; }
+function Eraser(props) { return <Icon {...props}><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" /><path d="M22 21H7" /><path d="m5 11 9 9" /></Icon>; }
+function Trash2(props) { return <Icon {...props}><polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></Icon>; }
+function Users(props) { return <Icon {...props}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></Icon>; }
+function ClipboardCheck(props) { return <Icon {...props}><rect x="8" y="2" width="8" height="4" rx="1" ry="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" /></Icon>; }
+function HelpCircle(props) { return <Icon {...props}><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></Icon>; }
+function MessageSquare(props) { return <Icon {...props}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></Icon>; }
+function Send(props) { return <Icon {...props}><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></Icon>; }
+function Star(props) { return <Icon {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></Icon>; }
+function Calendar(props) { return <Icon {...props}><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></Icon>; }
+function Check(props) { return <Icon {...props}><polyline points="20 6 9 17 4 12" /></Icon>; }
+function Menu(props) { return <Icon {...props}><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></Icon>; }
+function ChevronRight(props) { return <Icon {...props}><polyline points="9 18 15 12 9 6" /></Icon>; }
+function Sun(props) { return <Icon {...props}><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></Icon>; }
+function Moon(props) { return <Icon {...props}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></Icon>; }
+
+function LogoMark({ size = 28 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+      <rect x="1" y="1" width="30" height="30" rx="9" style={{ fill: "var(--primary)" }} />
+      <path d="M12.5 10.5 7.5 16l5 5.5" stroke="#fff" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <path d="M19.5 10.5 24.5 16l-5 5.5" stroke="#fff" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <line x1="18" y1="8.5" x2="14" y2="23.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ============================= storage layer ============================= */
+const DB_ROOT = "classconnect";
+let dbPromise = null;
+function getDb() {
+  if (dbPromise) return dbPromise;
+  dbPromise = (async () => {
+    try {
+      if (window.claude && typeof window.claude.use === "function") {
+        const db = await window.claude.use("db");
+        return db || null;
+      }
+    } catch (err) {}
+    return null;
+  })();
+  return dbPromise;
+}
+function withTimeout(promise, ms, fallback) {
+  return new Promise((resolve) => {
+    let settled = false;
+    const timer = setTimeout(() => {
+      if (!settled) { settled = true; resolve(fallback); }
+    }, ms);
+    Promise.resolve(promise).then((v) => {
+      if (!settled) { settled = true; clearTimeout(timer); resolve(v); }
+    }).catch(() => {
+      if (!settled) { settled = true; clearTimeout(timer); resolve(fallback); }
+    });
+  });
+}
+async function storageGet(key, shared, fallback) {
+  try {
+    if (shared) {
+      const db = await withTimeout(getDb(), 4000, null);
+      if (db) {
+        const snap = await withTimeout(db.doc(`${DB_ROOT}/${key}`).get(), 4000, null);
+        if (!snap || !snap.exists) return fallback;
+        const data = snap.data();
+        return data && Object.prototype.hasOwnProperty.call(data, "value") ? data.value : fallback;
+      }
+      // No db capability in this view (e.g. opened outside the hosted app) —
+      // fall back to this browser's own storage so the app still works solo,
+      // just without cross-device sync.
+      const raw = window.localStorage.getItem(`cc-shared-${key}`);
+      return raw != null ? JSON.parse(raw) : fallback;
+    }
+    const raw = window.localStorage.getItem(`cc-${key}`);
+    return raw != null ? JSON.parse(raw) : fallback;
+  } catch (err) {
+    return fallback;
+  }
+}
+async function storageSet(key, value, shared) {
+  try {
+    if (shared) {
+      const db = await withTimeout(getDb(), 4000, null);
+      if (db) {
+        await withTimeout(db.doc(`${DB_ROOT}/${key}`).set({ value }), 4000, null);
+        return true;
+      }
+      window.localStorage.setItem(`cc-shared-${key}`, JSON.stringify(value));
+      return true;
+    }
+    window.localStorage.setItem(`cc-${key}`, JSON.stringify(value));
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+const storage = { get: storageGet, set: storageSet };
+
+/* ============================= constants ============================= */
+const DEMO_ACCOUNTS = {
+  teacher: { password: "teach123", name: "Ms. Rao", role: "teacher" },
+  student: { password: "student123", name: "Arjun", role: "student" },
+};
+const MARKER_COLORS = [
+  { name: "Marker Black", value: "#1F2933" },
+  { name: "Marker Red", value: "#E2483F" },
+  { name: "Marker Blue", value: "#2F80C4" },
+  { name: "Marker Green", value: "#2F9E5B" },
+  { name: "Marker Orange", value: "#E8963A" },
+];
+const BOARD_BG = "#FFFFFF";
+const TABS = [
+  { id: "board", label: "The Board", icon: PenTool },
+  { id: "rollcall", label: "Roll Call", icon: ClipboardCheck },
+  { id: "doubts", label: "Ask the Class", icon: HelpCircle },
+  { id: "poll", label: "Topic Poll", icon: MessageSquare },
+  { id: "feedback", label: "Feedback Wall", icon: Star },
+];
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+}
+function initials(name) {
+  if (!name) return "?";
+  return name.trim().split(/\s+/).slice(0, 2).map((p) => p[0].toUpperCase()).join("");
+}
+function timeAgo(ts) {
+  if (!ts) return "";
+  const diff = Date.now() - ts;
+  const min = Math.floor(diff / 60000);
+  if (min < 1) return "just now";
+  if (min < 60) return `${min}m ago`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr}h ago`;
+  const days = Math.floor(hr / 24);
+  return `${days}d ago`;
+}
+function formatBytes(n) {
+  if (!n && n !== 0) return "";
+  if (n < 1024) return `${n} B`;
+  return `${(n / 1024).toFixed(0)} KB`;
+}
+const MAX_ATTACHMENT_BYTES = 180 * 1024;
+const REACTION_EMOJIS = ["👍", "❤️", "🎉", "🤔"];
+const ATTACHMENT_ACCEPT = ".pdf,.docx,.pptx,.xlsx,.epub,.csv,.txt,.md,.html,.svg,.ttf,.png,.jpg,.jpeg,.gif,.webp,.mp4,.webm";
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error || new Error("read failed"));
+    reader.readAsDataURL(file);
+  });
+}
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/* ============================= Auth screen ============================= */
+function AuthScreen({ onLogin, onSignup, onDemo, theme, onToggleTheme, dbAvailable }) {
+  const [mode, setMode] = useState("login");
+  const [role, setRole] = useState("student");
+  const [form, setForm] = useState({ name: "", username: "", password: "" });
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  function update(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    setBusy(true);
+    try {
+      if (mode === "login") {
+        const res = await onLogin(form.username, form.password);
+        if (!res.ok) setError(res.error || "Could not log in.");
+      } else {
+        const res = await onSignup(form.name, form.username, form.password, role);
+        if (!res.ok) setError(res.error || "Could not sign up.");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleDemo(demoRole) {
+    setError("");
+    setBusy(true);
+    try {
+      const res = await onDemo(demoRole);
+      if (!res.ok) setError(res.error || "Could not enter demo mode.");
+    } catch (err) {
+      setError("Could not enter demo mode.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="auth-wrap" data-theme={theme}>
+      <div className="auth-card">
+        <button type="button" className="theme-toggle-fab" onClick={onToggleTheme} title="Switch appearance">
+          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+        <div className="auth-logo"><LogoMark size={34} /><h1>Syntax</h1></div>
+        <p className="auth-sub">One dashboard for your whole classroom — Teachers Day edition</p>
+        {dbAvailable === false && (
+          <div className="local-mode-note">
+            Running outside the hosted app — accounts and classroom data stay on this device only. Great for trying it out solo; use the hosted link to sync a real class.
+          </div>
+        )}
+
+        <div className="mode-toggle">
+          <button type="button" className={`mode-link ${mode === "login" ? "active" : ""}`} onClick={() => { setMode("login"); setError(""); }}>Log In</button>
+          <button type="button" className={`mode-link ${mode === "signup" ? "active" : ""}`} onClick={() => { setMode("signup"); setError(""); }}>Sign Up</button>
+        </div>
+
+        {mode === "signup" && (
+          <div className="role-toggle">
+            <button type="button" className={`role-btn ${role === "student" ? "active" : ""}`} onClick={() => setRole("student")}>Student</button>
+            <button type="button" className={`role-btn ${role === "teacher" ? "active" : ""}`} onClick={() => setRole("teacher")}>Teacher</button>
+          </div>
+        )}
+
+        {error && <div className="auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit}>
+          {mode === "signup" && (
+            <div className="field">
+              <label>Full name</label>
+              <input value={form.name} onChange={(e) => update("name", e.target.value)} placeholder="e.g. Priya Sharma" autoComplete="name" />
+            </div>
+          )}
+          <div className="field">
+            <label>Username</label>
+            <input value={form.username} onChange={(e) => update("username", e.target.value)} placeholder="e.g. priya" autoComplete="username" />
+          </div>
+          <div className="field">
+            <label>Password</label>
+            <input type="password" value={form.password} onChange={(e) => update("password", e.target.value)} placeholder="••••••••" autoComplete={mode === "login" ? "current-password" : "new-password"} />
+          </div>
+          <button className="btn-primary" type="submit" disabled={busy}>
+            {mode === "login" ? <LogIn size={17} /> : <UserPlus size={17} />}
+            {busy ? "Please wait…" : mode === "login" ? "Log In" : "Create Account"}
+          </button>
+        </form>
+
+        <div className="demo-divider">quick demo access</div>
+        <div className="demo-row">
+          <button className="btn-demo" type="button" disabled={busy} onClick={() => handleDemo("teacher")}>
+            <ClipboardCheck size={14} /> Enter as teacher
+          </button>
+          <button className="btn-demo" type="button" disabled={busy} onClick={() => handleDemo("student")}>
+            <Users size={14} /> Enter as student
+          </button>
+        </div>
+
+        <div className="copyright">© {new Date().getFullYear()} Syntax — made by Aneeth &amp; Anush</div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================= The Board ============================= */
+function BoardTab({ user }) {
+  const isTeacher = user.role === "teacher";
+  const canvasRef = useRef(null);
+  const drawingRef = useRef(false);
+  const lastPointRef = useRef(null);
+  const [color, setColor] = useState(MARKER_COLORS[0].value);
+  const [thickness, setThickness] = useState(4);
+  const [isEraser, setIsEraser] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [studentImg, setStudentImg] = useState(null);
+  const [note, setNote] = useState("");
+
+  useEffect(() => {
+    if (isTeacher) return;
+    let cancelled = false;
+    async function poll() {
+      const img = await storage.get("board-image", true, null);
+      if (!cancelled) setStudentImg(img);
+    }
+    poll();
+    const iv = setInterval(poll, 3000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, [isTeacher]);
+
+  useEffect(() => {
+    if (!isTeacher) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = BOARD_BG;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let cancelled = false;
+    (async () => {
+      const existing = await storage.get("board-image", true, null);
+      if (existing && !cancelled) {
+        const img = new Image();
+        img.onload = () => { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+        img.src = existing;
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [isTeacher]);
+
+  function getPos(e) {
+    const canvas = canvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  }
+  function handlePointerDown(e) {
+    if (!isTeacher) return;
+    canvasRef.current.setPointerCapture(e.pointerId);
+    drawingRef.current = true;
+    lastPointRef.current = getPos(e);
+  }
+  function handlePointerMove(e) {
+    if (!isTeacher || !drawingRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    const pos = getPos(e);
+    ctx.strokeStyle = isEraser ? BOARD_BG : color;
+    ctx.lineWidth = isEraser ? thickness * 5 : thickness;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    lastPointRef.current = pos;
+  }
+  async function handlePointerUp() {
+    if (!isTeacher || !drawingRef.current) return;
+    drawingRef.current = false;
+    setSaving(true);
+    setNote("");
+    try {
+      const dataUrl = canvasRef.current.toDataURL("image/png");
+      const ok = await storage.set("board-image", dataUrl, true);
+      if (!ok) setNote("Could not sync just now — it'll retry on your next stroke.");
+    } catch (err) {
+      setNote("Could not save the board.");
+    } finally {
+      setSaving(false);
+    }
+  }
+  async function handleClear() {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = BOARD_BG;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    setSaving(true);
+    try {
+      await storage.set("board-image", canvas.toDataURL("image/png"), true);
+    } catch (err) {}
+    setSaving(false);
+  }
+
+  if (!isTeacher) {
+    return (
+      <div>
+        <div className="page-head"><PenTool size={22} color="var(--yellow)" /><h2>The Board</h2></div>
+        <p className="page-desc">Watching the teacher's board live — it refreshes every few seconds.</p>
+        <div className="board-img-wrap">
+          {studentImg ? <img src={studentImg} alt="Classroom whiteboard" /> : (
+            <div className="empty-note">
+              <div className="icon"><PenTool size={26} /></div>
+              Waiting for the teacher to start drawing…
+            </div>
+          )}
+        </div>
+        <div style={{ marginTop: 12 }}><span className="live-dot"><span className="dot"></span>Live view</span></div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="page-head"><PenTool size={22} color="var(--yellow)" /><h2>The Board</h2></div>
+      <p className="page-desc">Draw for the class — every stroke syncs to students automatically.</p>
+
+      <div className="panel board-toolbar">
+        <div className="color-dots">
+          {MARKER_COLORS.map((c) => (
+            <button key={c.value} type="button" title={c.name}
+              className={`color-dot ${!isEraser && color === c.value ? "active" : ""}`}
+              style={{ background: c.value }}
+              onClick={() => { setColor(c.value); setIsEraser(false); }} />
+          ))}
+        </div>
+        <button type="button" className={`tool-btn ${isEraser ? "active" : ""}`} title="Eraser" onClick={() => setIsEraser((v) => !v)}>
+          <Eraser size={17} />
+        </button>
+        <div className="thickness-wrap">
+          <PenTool size={14} />
+          <input type="range" min="2" max="16" value={thickness} onChange={(e) => setThickness(Number(e.target.value))} />
+        </div>
+        <button type="button" className="btn-outline" onClick={handleClear}><Trash2 size={15} /> Clear board</button>
+        {saving && <span className="live-dot"><span className="dot"></span>Syncing…</span>}
+      </div>
+
+      <div className="board-canvas-wrap">
+        <canvas
+          ref={canvasRef}
+          width={900}
+          height={500}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerUp}
+        />
+      </div>
+      {note && <div className="inline-error">{note}</div>}
+    </div>
+  );
+}
+
+/* ============================= Roll Call ============================= */
+function RollCallTab({ user }) {
+  const isTeacher = user.role === "teacher";
+  const [date, setDate] = useState(todayStr());
+  const [students, setStudents] = useState([]);
+  const [attendance, setAttendance] = useState({});
+  const [busyKey, setBusyKey] = useState("");
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function poll() {
+      const [users, att] = await Promise.all([
+        storage.get("users", true, {}),
+        storage.get("attendance", true, {}),
+      ]);
+      if (cancelled) return;
+      const list = Object.entries(users || {})
+        .filter(([, u]) => u.role === "student")
+        .map(([uname, u]) => ({ username: uname, name: u.name }))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      setStudents(list);
+      setAttendance(att || {});
+      setLoaded(true);
+    }
+    poll();
+    const iv = setInterval(poll, 5000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, []);
+
+  async function toggle(username, present) {
+    setBusyKey(username);
+    try {
+      const current = await storage.get("attendance", true, {});
+      const dayMap = { ...(current[date] || {}) };
+      dayMap[username] = present;
+      const next = { ...current, [date]: dayMap };
+      await storage.set("attendance", next, true);
+      setAttendance(next);
+    } catch (err) {
+      // ignore, next poll will resync
+    } finally {
+      setBusyKey("");
+    }
+  }
+
+  if (isTeacher) {
+    const dayMap = attendance[date] || {};
+    const presentCount = students.filter((s) => dayMap[s.username]).length;
+    return (
+      <div>
+        <div className="page-head"><ClipboardCheck size={22} color="var(--yellow)" /><h2>Roll Call</h2></div>
+        <p className="page-desc">Pick a date and mark who's in class today.</p>
+
+        <div className="date-row">
+          <Calendar size={16} color="var(--chalk-dim)" />
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <span className="badge resolved">{presentCount}/{students.length} present</span>
+        </div>
+
+        {!loaded ? (
+          <div className="empty-note">Loading the roster…</div>
+        ) : students.length === 0 ? (
+          <div className="empty-note">No students have signed up yet.</div>
+        ) : (
+          <div className="roll-sheet">
+            {students.map((s) => {
+              const state = dayMap[s.username];
+              return (
+                <div className="roll-row" key={s.username}>
+                  <div className="roll-name">
+                    <span className="user-avatar" style={{ width: 28, height: 28, fontSize: 12 }}>{initials(s.name)}</span>
+                    {s.name}
+                  </div>
+                  <div className="toggle-pair">
+                    <button type="button" disabled={busyKey === s.username}
+                      className={`toggle-btn present ${state === true ? "on" : ""}`}
+                      onClick={() => toggle(s.username, true)}>
+                      <Check size={13} /> Present
+                    </button>
+                    <button type="button" disabled={busyKey === s.username}
+                      className={`toggle-btn absent ${state === false ? "on" : ""}`}
+                      onClick={() => toggle(s.username, false)}>
+                      Absent
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const myDates = Object.keys(attendance).filter((d) => Object.prototype.hasOwnProperty.call(attendance[d] || {}, user.username)).sort().reverse();
+  const presentDays = myDates.filter((d) => attendance[d][user.username] === true).length;
+
+  return (
+    <div>
+      <div className="page-head"><ClipboardCheck size={22} color="var(--yellow)" /><h2>Roll Call</h2></div>
+      <p className="page-desc">Your attendance history, straight from the teacher's sheet.</p>
+
+      <div className="summary-strip">
+        <div className="stat-box"><div className="num">{presentDays}</div><div className="lbl">Days present</div></div>
+        <div className="stat-box"><div className="num">{myDates.length}</div><div className="lbl">Days recorded</div></div>
+      </div>
+
+      {myDates.length === 0 ? (
+        <div className="empty-note">No attendance recorded for you yet.</div>
+      ) : (
+        <div className="roll-sheet">
+          {myDates.map((d) => (
+            <div className="history-row" key={d}>
+              <span>{d}</span>
+              <span className={`badge ${attendance[d][user.username] ? "resolved" : "unread"}`}>
+                {attendance[d][user.username] ? "Present" : "Absent"}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================= Ask the Class (Doubts) ============================= */
+function AttachmentChip({ attachment }) {
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const isImage = attachment.fileType && attachment.fileType.startsWith("image/");
+
+  async function handleDownload() {
+    setSaving(true);
+    setError("");
+    try {
+      const downloads = window.claude && typeof window.claude.use === "function"
+        ? await window.claude.use("downloads") : null;
+      if (!downloads) { setError("Downloads aren't available in this view."); return; }
+      const res = await fetch(attachment.dataUrl);
+      const blob = await res.blob();
+      await downloads.save({ filename: attachment.fileName, data: blob });
+    } catch (err) {
+      if (err && err.code === "declined") {
+        // viewer said no — nothing to report
+      } else if (err && err.code === "rejected_extension") {
+        setError("That file type can't be saved here.");
+      } else {
+        setError("Could not save the file. Try again.");
+      }
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="attach-chip attach-chip-view">
+      {isImage && <img src={attachment.dataUrl} alt={attachment.fileName} className="attach-thumb" />}
+      <div className="attach-meta">
+        <span className="attach-name">📎 {attachment.fileName}</span>
+        <span className="attach-size">{formatBytes(attachment.size)}</span>
+      </div>
+      <button type="button" className="btn-outline" disabled={saving} onClick={handleDownload}>
+        {saving ? "Saving…" : "Download"}
+      </button>
+      {error && <div className="inline-error">{error}</div>}
+    </div>
+  );
+}
+
+function DoubtsTab({ user }) {
+  const [doubts, setDoubts] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [subject, setSubject] = useState("");
+  const [text, setText] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [replyDrafts, setReplyDrafts] = useState({});
+  const [replyBusyId, setReplyBusyId] = useState("");
+  const [attachDrafts, setAttachDrafts] = useState({});
+  const [attachErrors, setAttachErrors] = useState({});
+  const [postAttachment, setPostAttachment] = useState(null);
+  const [postAttachError, setPostAttachError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    async function poll() {
+      const list = await storage.get("doubts", true, []);
+      if (!cancelled) { setDoubts(Array.isArray(list) ? list : []); setLoaded(true); }
+    }
+    poll();
+    const iv = setInterval(poll, 4000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, []);
+
+  async function handlePost(e) {
+    e.preventDefault();
+    setError("");
+    if (!subject.trim() || !text.trim()) { setError("Add a subject and your question."); return; }
+    setBusy(true);
+    try {
+      const current = await storage.get("doubts", true, []);
+      const entry = {
+        id: uid(), username: user.username, name: user.name,
+        subject: subject.trim(), text: text.trim(),
+        reply: "", resolved: false, createdAt: Date.now(),
+        questionAttachment: postAttachment || null,
+      };
+      const next = [entry, ...(Array.isArray(current) ? current : [])];
+      const ok = await storage.set("doubts", next, true);
+      if (!ok) { setError("Could not post right now. Try again."); return; }
+      setDoubts(next);
+      setSubject(""); setText(""); setPostAttachment(null);
+    } catch (err) {
+      setError("Could not post your doubt. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handlePostFilePick(file) {
+    setPostAttachError("");
+    if (!file) return;
+    if (file.size > MAX_ATTACHMENT_BYTES) {
+      setPostAttachError(`That file is too big — keep attachments under ${Math.round(MAX_ATTACHMENT_BYTES / 1024)} KB.`);
+      return;
+    }
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setPostAttachment({ fileName: file.name, fileType: file.type, size: file.size, dataUrl });
+    } catch (err) {
+      setPostAttachError("Could not read that file. Try again.");
+    }
+  }
+
+  async function handlePickFile(id, file) {
+    setAttachErrors((e) => ({ ...e, [id]: "" }));
+    if (!file) return;
+    if (file.size > MAX_ATTACHMENT_BYTES) {
+      setAttachErrors((e) => ({ ...e, [id]: `That file is too big — keep attachments under ${Math.round(MAX_ATTACHMENT_BYTES / 1024)} KB.` }));
+      return;
+    }
+    try {
+      const dataUrl = await readFileAsDataUrl(file);
+      setAttachDrafts((a) => ({ ...a, [id]: { fileName: file.name, fileType: file.type, size: file.size, dataUrl } }));
+    } catch (err) {
+      setAttachErrors((e) => ({ ...e, [id]: "Could not read that file. Try again." }));
+    }
+  }
+
+  async function handleReply(id) {
+    const draft = (replyDrafts[id] || "").trim();
+    if (!draft) return;
+    const attachment = attachDrafts[id] || null;
+    setReplyBusyId(id);
+    try {
+      const current = await storage.get("doubts", true, []);
+      const next = (Array.isArray(current) ? current : []).map((d) =>
+        d.id === id ? { ...d, reply: draft, repliedBy: user.name, resolved: true, replyAttachment: attachment } : d
+      );
+      const ok = await storage.set("doubts", next, true);
+      if (ok) {
+        setDoubts(next);
+        setReplyDrafts((r) => ({ ...r, [id]: "" }));
+        setAttachDrafts((a) => ({ ...a, [id]: null }));
+      }
+    } catch (err) {
+      // silently retry on next poll
+    } finally {
+      setReplyBusyId("");
+    }
+  }
+
+  async function toggleReaction(id, emoji) {
+    try {
+      const current = await storage.get("doubts", true, []);
+      const list = Array.isArray(current) ? current : [];
+      const next = list.map((d) => {
+        if (d.id !== id) return d;
+        const reactions = { ...(d.reactions || {}) };
+        const users = reactions[emoji] ? reactions[emoji].slice() : [];
+        const idx = users.indexOf(user.username);
+        if (idx === -1) users.push(user.username); else users.splice(idx, 1);
+        if (users.length === 0) delete reactions[emoji]; else reactions[emoji] = users;
+        return { ...d, reactions };
+      });
+      const ok = await storage.set("doubts", next, true);
+      if (ok) setDoubts(next);
+    } catch (err) {
+      // ignore — the next poll resyncs
+    }
+  }
+
+  return (
+    <div>
+      <div className="page-head"><HelpCircle size={22} color="var(--yellow)" /><h2>Ask the Class</h2></div>
+      <p className="page-desc">A public Q&amp;A — everyone can see every doubt and its answer.</p>
+
+      {user.role === "student" && (
+        <form className="panel doubt-form" onSubmit={handlePost}>
+          <input placeholder="Subject (e.g. Trigonometry)" value={subject} onChange={(e) => setSubject(e.target.value)} />
+          <textarea rows={3} placeholder="What's confusing you?" value={text} onChange={(e) => setText(e.target.value)} />
+          <label className="btn-outline attach-btn" style={{ marginTop: 4 }} title="Attach a file to your question">
+            📎 Attach a file
+            <input type="file" accept={ATTACHMENT_ACCEPT} style={{ display: "none" }}
+              onChange={(ev) => handlePostFilePick(ev.target.files && ev.target.files[0])} />
+          </label>
+          {postAttachment && (
+            <div className="attach-chip">
+              <span className="attach-name">📎 {postAttachment.fileName} ({formatBytes(postAttachment.size)})</span>
+              <button type="button" className="attach-remove" onClick={() => setPostAttachment(null)}>✕</button>
+            </div>
+          )}
+          {postAttachError && <div className="inline-error">{postAttachError}</div>}
+          {error && <div className="inline-error">{error}</div>}
+          <button className="btn-red" type="submit" disabled={busy} style={{ marginTop: 10 }}>
+            <Send size={14} /> {busy ? "Posting…" : "Post doubt"}
+          </button>
+        </form>
+      )}
+
+      {!loaded ? (
+        <div className="empty-note">Loading doubts…</div>
+      ) : doubts.length === 0 ? (
+        <div className="empty-note">
+          <div className="icon"><HelpCircle size={26} /></div>
+          No doubts posted yet. Be the first to ask!
+        </div>
+      ) : (
+        doubts.map((d) => (
+          <div className="doubt-card" key={d.id}>
+            <div className="doubt-top">
+              <div>
+                <div className="doubt-subject">{d.subject}</div>
+                <div className="doubt-meta">{d.name} · {timeAgo(d.createdAt)}</div>
+              </div>
+              <span className={`badge ${d.resolved ? "resolved" : "open"}`}>
+                {d.resolved ? <Check size={11} /> : null}{d.resolved ? "Resolved" : "Open"}
+              </span>
+            </div>
+            <div className="doubt-text">{d.text}</div>
+            {d.questionAttachment && <AttachmentChip attachment={d.questionAttachment} />}
+            {d.reply && (
+              <div className="doubt-reply">
+                <div className="who">{d.repliedBy || "Teacher"} replied</div>
+                {d.reply}
+                {d.replyAttachment && <AttachmentChip attachment={d.replyAttachment} />}
+              </div>
+            )}
+            {d.resolved && (
+              <div className="reaction-row">
+                {REACTION_EMOJIS.map((emoji) => {
+                  const reactedBy = (d.reactions && d.reactions[emoji]) || [];
+                  const active = reactedBy.includes(user.username);
+                  return (
+                    <button key={emoji} type="button"
+                      className={`reaction-pill ${active ? "active" : ""}`}
+                      onClick={() => toggleReaction(d.id, emoji)}
+                      title={active ? "Remove your reaction" : "React to this answer"}>
+                      <span>{emoji}</span>
+                      {reactedBy.length > 0 && <span className="reaction-count">{reactedBy.length}</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            {user.role === "teacher" && !d.resolved && (
+              <div>
+                <div className="reply-box">
+                  <input placeholder="Type your reply…" value={replyDrafts[d.id] || ""}
+                    onChange={(e) => setReplyDrafts((r) => ({ ...r, [d.id]: e.target.value }))} />
+                  <label className="btn-outline attach-btn" title="Attach a file to your reply">
+                    📎 Attach
+                    <input type="file" accept={ATTACHMENT_ACCEPT} style={{ display: "none" }}
+                      onChange={(ev) => handlePickFile(d.id, ev.target.files && ev.target.files[0])} />
+                  </label>
+                  <button className="btn-outline" type="button" disabled={replyBusyId === d.id}
+                    onClick={() => handleReply(d.id)}>
+                    <Send size={13} /> {replyBusyId === d.id ? "Sending…" : "Reply"}
+                  </button>
+                </div>
+                {attachDrafts[d.id] && (
+                  <div className="attach-chip">
+                    <span className="attach-name">📎 {attachDrafts[d.id].fileName} ({formatBytes(attachDrafts[d.id].size)})</span>
+                    <button type="button" className="attach-remove" onClick={() => setAttachDrafts((a) => ({ ...a, [d.id]: null }))}>✕</button>
+                  </div>
+                )}
+                {attachErrors[d.id] && <div className="inline-error">{attachErrors[d.id]}</div>}
+              </div>
+            )}
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
+/* ============================= Topic Poll ============================= */
+function PollTab({ user }) {
+  const isTeacher = user.role === "teacher";
+  const [poll, setPoll] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [topicInput, setTopicInput] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [myVote, setMyVote] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function poll_() {
+      const p = await storage.get("poll", true, null);
+      if (!cancelled) { setPoll(p); setLoaded(true); }
+    }
+    poll_();
+    const iv = setInterval(poll_, 3000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, []);
+
+  useEffect(() => {
+    if (!poll) { setMyVote(null); return; }
+    let cancelled = false;
+    (async () => {
+      const v = await storage.get(`poll-vote-${poll.createdAt}`, false, null);
+      if (!cancelled) setMyVote(v);
+    })();
+    return () => { cancelled = true; };
+  }, [poll && poll.createdAt]);
+
+  async function startPoll(e) {
+    e.preventDefault();
+    setError("");
+    if (!topicInput.trim()) { setError("Enter today's topic first."); return; }
+    setBusy(true);
+    try {
+      const next = {
+        topic: topicInput.trim(), isOpen: true,
+        votes: { repeat: 0, moveon: 0 }, createdAt: Date.now(),
+      };
+      const ok = await storage.set("poll", next, true);
+      if (!ok) { setError("Could not start the poll."); return; }
+      setPoll(next); setTopicInput("");
+    } catch (err) {
+      setError("Could not start the poll.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function closePoll() {
+    setBusy(true);
+    try {
+      const current = await storage.get("poll", true, poll);
+      const next = { ...current, isOpen: false };
+      const ok = await storage.set("poll", next, true);
+      if (ok) setPoll(next);
+    } catch (err) {}
+    setBusy(false);
+  }
+
+  async function castVote(choice) {
+    if (!poll || !poll.isOpen || myVote) return;
+    setBusy(true);
+    try {
+      const current = await storage.get("poll", true, poll);
+      if (!current || current.createdAt !== poll.createdAt) { setPoll(current); setBusy(false); return; }
+      const next = { ...current, votes: { ...current.votes, [choice]: (current.votes[choice] || 0) + 1 } };
+      const ok = await storage.set("poll", next, true);
+      if (ok) {
+        setPoll(next);
+        await storage.set(`poll-vote-${poll.createdAt}`, choice, false);
+        setMyVote(choice);
+      }
+    } catch (err) {
+      setError("Could not record your vote — try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const total = poll ? (poll.votes.repeat || 0) + (poll.votes.moveon || 0) : 0;
+  const repeatPct = total ? Math.round(((poll.votes.repeat || 0) / total) * 100) : 0;
+  const moveonPct = total ? 100 - repeatPct : 0;
+
+  return (
+    <div>
+      <div className="page-head"><MessageSquare size={22} color="var(--yellow)" /><h2>Topic Poll</h2></div>
+      <p className="page-desc">Should today's topic be repeated? The class decides — live.</p>
+
+      {isTeacher && (
+        <form className="panel new-poll-form" onSubmit={startPoll}>
+          <input placeholder="What did you teach today?" value={topicInput} onChange={(e) => setTopicInput(e.target.value)} />
+          <button className="btn-red" type="submit" disabled={busy}><Send size={14} /> {poll ? "Start new poll" : "Start poll"}</button>
+        </form>
+      )}
+      {error && <div className="inline-error" style={{ marginBottom: 14 }}>{error}</div>}
+
+      {!loaded ? (
+        <div className="empty-note">Loading the poll…</div>
+      ) : !poll ? (
+        <div className="empty-note">
+          <div className="icon"><MessageSquare size={26} /></div>
+          No poll right now — check back after class!
+        </div>
+      ) : (
+        <div className="poll-topic-card">
+          <h3>{poll.topic}</h3>
+          <div className="status-line">
+            {poll.isOpen ? <span className="live-dot"><span className="dot"></span>Voting open</span> : "Poll closed"} · {total} vote{total === 1 ? "" : "s"}
+          </div>
+
+          {!isTeacher && poll.isOpen && !myVote && (
+            <div className="vote-row">
+              <button className="vote-btn repeat" disabled={busy} onClick={() => castVote("repeat")}>
+                <Check size={20} /> Repeat it
+              </button>
+              <button className="vote-btn moveon" disabled={busy} onClick={() => castVote("moveon")}>
+                <ChevronRight size={20} /> Move on
+              </button>
+            </div>
+          )}
+          {!isTeacher && myVote && (
+            <div className="badge resolved" style={{ marginBottom: 16 }}>
+              <Check size={11} /> You voted: {myVote === "repeat" ? "Repeat it" : "Move on"}
+            </div>
+          )}
+
+          <div className="bar-row">
+            <div className="bar-label"><span>Repeat it</span><span>{poll.votes.repeat || 0} ({repeatPct}%)</span></div>
+            <div className="bar-track"><div className="bar-fill repeat" style={{ width: `${repeatPct}%` }}></div></div>
+          </div>
+          <div className="bar-row">
+            <div className="bar-label"><span>Move on</span><span>{poll.votes.moveon || 0} ({moveonPct}%)</span></div>
+            <div className="bar-track"><div className="bar-fill moveon" style={{ width: `${moveonPct}%` }}></div></div>
+          </div>
+
+          {isTeacher && poll.isOpen && (
+            <button className="btn-outline" type="button" disabled={busy} onClick={closePoll} style={{ marginTop: 14 }}>
+              Close poll
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================= Feedback Wall ============================= */
+function FeedbackTab({ user }) {
+  const [entries, setEntries] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const [topic, setTopic] = useState("");
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [anonymous, setAnonymous] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    async function poll() {
+      const list = await storage.get("feedback", true, []);
+      if (!cancelled) { setEntries(Array.isArray(list) ? list : []); setLoaded(true); }
+    }
+    poll();
+    const iv = setInterval(poll, 5000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, []);
+
+  async function handlePost(e) {
+    e.preventDefault();
+    setError("");
+    if (!topic.trim() || rating === 0) { setError("Add the topic and a star rating."); return; }
+    setBusy(true);
+    try {
+      const current = await storage.get("feedback", true, []);
+      const entry = {
+        id: uid(),
+        name: anonymous ? "A thoughtful student" : user.name,
+        anonymous, topic: topic.trim(), rating,
+        comment: comment.trim(), createdAt: Date.now(),
+      };
+      const next = [entry, ...(Array.isArray(current) ? current : [])];
+      const ok = await storage.set("feedback", next, true);
+      if (!ok) { setError("Could not post right now. Try again."); return; }
+      setEntries(next);
+      setTopic(""); setRating(0); setComment(""); setAnonymous(false);
+    } catch (err) {
+      setError("Could not post your feedback. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const avg = entries.length ? (entries.reduce((s, e) => s + (e.rating || 0), 0) / entries.length) : 0;
+
+  return (
+    <div>
+      <div className="page-head"><Star size={22} color="var(--yellow)" /><h2>Feedback Wall</h2></div>
+      <p className="page-desc">Rate and review the section taught today — anonymously if you like.</p>
+
+      {user.role === "student" && (
+        <form className="panel feedback-form" onSubmit={handlePost}>
+          <div className="field" style={{ marginBottom: 12 }}>
+            <label>Topic taught today</label>
+            <input className="ta" placeholder="e.g. Photosynthesis" value={topic} onChange={(e) => setTopic(e.target.value)} />
+          </div>
+          <div className="star-picker">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button key={n} type="button" className={`star-btn ${n <= rating ? "filled" : ""}`} onClick={() => setRating(n)}>
+                <Star size={24} fill={n <= rating ? "currentColor" : "none"} />
+              </button>
+            ))}
+          </div>
+          <textarea rows={3} placeholder="Anything you'd like to add? (optional)" value={comment} onChange={(e) => setComment(e.target.value)} style={{ marginBottom: 12 }} />
+          <label className="checkbox-row">
+            <input type="checkbox" checked={anonymous} onChange={(e) => setAnonymous(e.target.checked)} />
+            Post without my name
+          </label>
+          {error && <div className="inline-error" style={{ marginBottom: 10 }}>{error}</div>}
+          <button className="btn-red" type="submit" disabled={busy}><Send size={14} /> {busy ? "Posting…" : "Post feedback"}</button>
+        </form>
+      )}
+
+      {loaded && entries.length > 0 && (
+        <div className="avg-strip">
+          <span className="big">{avg.toFixed(1)}</span>
+          <div>
+            <div style={{ display: "flex", gap: 2 }}>
+              {[1, 2, 3, 4, 5].map((n) => <Star key={n} size={16} color="var(--yellow)" fill={n <= Math.round(avg) ? "var(--yellow)" : "none"} />)}
+            </div>
+            <div style={{ fontSize: 12, color: "var(--chalk-dim)" }}>{entries.length} response{entries.length === 1 ? "" : "s"}</div>
+          </div>
+        </div>
+      )}
+
+      {!loaded ? (
+        <div className="empty-note">Loading the wall…</div>
+      ) : entries.length === 0 ? (
+        <div className="empty-note">
+          <div className="icon"><Star size={26} /></div>
+          No feedback yet — the wall is waiting for its first note.
+        </div>
+      ) : (
+        <div className="wall-grid">
+          {entries.map((e) => (
+            <div className="sticky" data-rating={e.rating} key={e.id}>
+              <div className="stars">
+                {[1, 2, 3, 4, 5].map((n) => <Star key={n} size={13} fill={n <= e.rating ? "currentColor" : "none"} />)}
+              </div>
+              <div className="topic">{e.topic}</div>
+              {e.comment && <div className="comment">{e.comment}</div>}
+              <div className="foot"><span>{e.name}</span><span>{timeAgo(e.createdAt)}</span></div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================= Shell ============================= */
+function Sidebar({ user, activeTab, onSelect, open, onClose, onLogout, teacherDirectory, onlineUsernames, roomAvailable, isMeOnline, theme, onToggleTheme }) {
+  return (
+    <>
+      <div className={`sidebar-overlay ${open ? "open" : ""}`} onClick={onClose}></div>
+      <div className={`sidebar ${open ? "open" : ""}`}>
+        <div className="sidebar-brand"><LogoMark size={26} /><h1>Syntax</h1></div>
+        <ul className="nav-list">
+          {TABS.map((t) => {
+            const Icon = t.icon;
+            return (
+              <li key={t.id} className={`nav-item ${activeTab === t.id ? "active" : ""}`} onClick={() => { onSelect(t.id); onClose(); }}>
+                <Icon size={17} />
+                <span className="label">{t.label}</span>
+                <ChevronRight size={15} className="nav-chevron" />
+              </li>
+            );
+          })}
+        </ul>
+
+        {teacherDirectory.filter((t) => t.username !== user.username).length > 0 && (
+          <div className="teacher-list">
+            <div className="heading">Teachers{roomAvailable === false ? " · status unavailable here" : ""}</div>
+            {teacherDirectory.filter((t) => t.username !== user.username).map((t) => {
+              const online = roomAvailable !== false && onlineUsernames.has(t.username);
+              return (
+                <div className="teacher-row" key={t.username}>
+                  <div className="teacher-avatar-wrap">
+                    <div className="user-avatar" style={{ width: 28, height: 28, fontSize: 12 }}>{initials(t.name)}</div>
+                    <span className={`status-dot ${online ? "online" : "offline"}`}></span>
+                  </div>
+                  <span className="teacher-name">{t.name}</span>
+                  <span className="teacher-status-label">{online ? "Online" : "Offline"}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="sidebar-foot">
+          <div className="user-chip">
+            <div className="teacher-avatar-wrap">
+              <div className="user-avatar">{initials(user.name)}</div>
+              {roomAvailable && <span className={`status-dot ${isMeOnline ? "online" : "offline"}`}></span>}
+            </div>
+            <div className="user-meta">
+              <div className="name">{user.name}</div>
+              <div className="role">{user.role}</div>
+            </div>
+          </div>
+          <button type="button" className="theme-toggle" onClick={onToggleTheme}>
+            {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />} {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+          <button className="btn-logout" onClick={onLogout}><LogOut size={14} /> Log out</button>
+          <div className="sidebar-credit">© Syntax · Aneeth &amp; Anush</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const [booting, setBooting] = useState(true);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [activeTab, setActiveTab] = useState("board");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [teacherDirectory, setTeacherDirectory] = useState([]);
+  const [roomPeers, setRoomPeers] = useState([]);
+  const [roomAvailable, setRoomAvailable] = useState(null);
+  const [dbAvailable, setDbAvailable] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const db = await getDb();
+      if (!cancelled) setDbAvailable(!!db);
+    })();
+    return () => { cancelled = true; };
+  }, []);
+  const [theme, setTheme] = useState(() => {
+    // Theme is a per-device display preference, not classroom data — read/write
+    // it straight from localStorage rather than through the shared `storage` helper.
+    try {
+      const stored = window.localStorage.getItem("cc-theme");
+      if (stored === "light" || stored === "dark") return stored;
+    } catch (err) {}
+    try {
+      return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    } catch (err) {
+      return "dark";
+    }
+  });
+
+  function toggleTheme() {
+    setTheme((t) => {
+      const next = t === "dark" ? "light" : "dark";
+      try { window.localStorage.setItem("cc-theme", next); } catch (err) {}
+      return next;
+    });
+  }
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const session = await storage.get("session", false, null);
+      if (!cancelled && session && session.username) {
+        const uname = session.username;
+        let record = DEMO_ACCOUNTS[uname] || null;
+        if (!record) {
+          const users = await storage.get("users", true, {});
+          record = users[uname] || null;
+        }
+        if (record) setCurrentUser({ username: uname, name: record.name, role: record.role });
+      }
+      if (!cancelled) setBooting(false);
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleLogin = useCallback(async (username, password) => {
+    const uname = (username || "").trim().toLowerCase();
+    const pwd = password || "";
+    if (!uname || !pwd) return { ok: false, error: "Enter username and password." };
+    let record = DEMO_ACCOUNTS[uname] || null;
+    if (!record) {
+      const users = await storage.get("users", true, {});
+      record = users[uname] || null;
+    }
+    if (!record || record.password !== pwd) return { ok: false, error: "Incorrect username or password." };
+    await storage.set("session", { username: uname }, false);
+    setCurrentUser({ username: uname, name: record.name, role: record.role });
+    return { ok: true };
+  }, []);
+
+  const handleSignup = useCallback(async (name, username, password, role) => {
+    const uname = (username || "").trim().toLowerCase();
+    const trimmedName = (name || "").trim();
+    if (!uname || !password || !trimmedName) return { ok: false, error: "Fill in name, username and password." };
+    if (DEMO_ACCOUNTS[uname]) return { ok: false, error: "That username is reserved. Pick another." };
+    const users = await storage.get("users", true, {});
+    if (users[uname]) return { ok: false, error: "That username is already taken." };
+    const nextUsers = { ...users, [uname]: { password, name: trimmedName, role } };
+    const ok = await storage.set("users", nextUsers, true);
+    if (!ok) return { ok: false, error: "Could not create your account. Try again." };
+    await storage.set("session", { username: uname }, false);
+    setCurrentUser({ username: uname, name: trimmedName, role });
+    return { ok: true };
+  }, []);
+
+  const handleDemo = useCallback(async (role) => {
+    const record = DEMO_ACCOUNTS[role];
+    if (!record) return { ok: false, error: "Unknown demo role." };
+    await storage.set("session", { username: role }, false);
+    setCurrentUser({ username: role, name: record.name, role: record.role });
+    return { ok: true };
+  }, []);
+
+  async function handleLogout() {
+    try { await storage.set("session", null, false); } catch (err) {}
+    setCurrentUser(null);
+    setActiveTab("board");
+  }
+
+  const usernameKey = currentUser ? currentUser.username : null;
+
+  useEffect(() => {
+    if (!usernameKey || !currentUser) return;
+    let cancelled = false;
+    let unsub = null;
+    (async () => {
+      try {
+        const room = window.claude && typeof window.claude.use === "function"
+          ? await window.claude.use("room") : null;
+        if (cancelled) return;
+        if (!room) { setRoomAvailable(false); return; }
+        setRoomAvailable(true);
+        room.presence({ name: currentUser.name, role: currentUser.role, username: currentUser.username }).catch(() => {});
+        unsub = room.onPeers((change) => { if (!cancelled) setRoomPeers(change.peers); });
+      } catch (err) {
+        if (!cancelled) setRoomAvailable(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+      if (unsub) unsub();
+      setRoomPeers([]);
+    };
+  }, [usernameKey]);
+
+  useEffect(() => {
+    if (!currentUser) return;
+    let cancelled = false;
+    async function poll() {
+      const users = await storage.get("users", true, {});
+      if (cancelled) return;
+      const registered = Object.entries(users || {})
+        .filter(([, u]) => u.role === "teacher")
+        .map(([uname, u]) => ({ username: uname, name: u.name }));
+      const merged = registered.slice();
+      if (!merged.some((t) => t.username === "teacher")) {
+        merged.unshift({ username: "teacher", name: DEMO_ACCOUNTS.teacher.name });
+      }
+      setTeacherDirectory(merged);
+    }
+    poll();
+    const iv = setInterval(poll, 5000);
+    return () => { cancelled = true; clearInterval(iv); };
+  }, [!!currentUser]);
+
+  const onlineUsernames = useMemo(() => {
+    const set = new Set();
+    roomPeers.forEach((p) => { if (p.presence && p.presence.username) set.add(p.presence.username); });
+    return set;
+  }, [roomPeers]);
+  // This client is the one calling room.presence() above, so its own
+  // "online" state is just whether that room connection came up at all —
+  // no need to find "myself" inside the peers list (identity/timing there
+  // is unreliable for this purpose).
+  const isMeOnline = roomAvailable === true;
+
+  if (booting) {
+    return (
+      <div className="auth-wrap" data-theme={theme}>
+        <div style={{ textAlign: "center", color: "var(--chalk-dim)" }}>
+          <div style={{ marginBottom: 10, display: "flex", justifyContent: "center" }}><LogoMark size={40} /></div>
+          Setting up the classroom…
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <AuthScreen onLogin={handleLogin} onSignup={handleSignup} onDemo={handleDemo}
+        theme={theme} onToggleTheme={toggleTheme} dbAvailable={dbAvailable} />
+    );
+  }
+
+  const activeMeta = TABS.find((t) => t.id === activeTab) || TABS[0];
+
+  return (
+    <div className="app-shell" data-theme={theme}>
+      <Sidebar user={currentUser} activeTab={activeTab} onSelect={setActiveTab}
+        open={sidebarOpen} onClose={() => setSidebarOpen(false)} onLogout={handleLogout}
+        teacherDirectory={teacherDirectory} onlineUsernames={onlineUsernames}
+        roomAvailable={roomAvailable} isMeOnline={isMeOnline}
+        theme={theme} onToggleTheme={toggleTheme} />
+      <div className="main-col">
+        <div className="topbar">
+          <button className="hamburger" onClick={() => setSidebarOpen((v) => !v)}><Menu size={18} /></button>
+          <div>
+            <h2>{activeMeta.label}</h2>
+            <div className="sub">Signed in as {currentUser.name} · {currentUser.role}</div>
+          </div>
+        </div>
+        <main className="content scrollbar">
+          {activeTab === "board" && <BoardTab user={currentUser} />}
+          {activeTab === "rollcall" && <RollCallTab user={currentUser} />}
+          {activeTab === "doubts" && <DoubtsTab user={currentUser} />}
+          {activeTab === "poll" && <PollTab user={currentUser} />}
+          {activeTab === "feedback" && <FeedbackTab user={currentUser} />}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+</script>
