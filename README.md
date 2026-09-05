@@ -1,9 +1,30 @@
-
 # Syntax
 
 A single-file classroom dashboard, originally built for a Teachers Day hackathon. One shared space for a teacher and their students to run a live whiteboard, take attendance, hold public Q&A, poll the class, and collect feedback on the day's lesson — all in one chalkboard-turned-clean dashboard UI.
 
 **Live demo:** https://aneethk007.github.io/Syntax/syntax.html
+
+**Team No:** 22
+
+**Problem Statement:** Classrooms run on a patchwork of disconnected tools — one app for attendance, another for sharing notes, a group chat for doubts that gets buried in noise, no easy way to gauge whether a topic actually landed, and no simple channel for students to give honest feedback on how a lesson went. Teachers lose visibility into their class in real time, and students lose a single place to ask, follow, and revisit what happened in class.
+
+**Objective:** Build one unified, real-time classroom dashboard — a shared live whiteboard, attendance tracking, a public doubts board, a quick "repeat this topic?" poll, and a lesson feedback wall — all in a single lightweight app that needs no install, no backend setup, and works the moment a teacher and their students open the same link.
+
+**Technology used:** Built in VS Code, with a little help from Claude (Anthropic) along the way. Under the hood: React (loaded via CDN, no build step or bundler), Babel Standalone for in-browser JSX compilation, the HTML5 Canvas + Pointer Events API for the whiteboard, hand-rolled inline SVG icons, and Claude's artifact platform capabilities (a realtime shared database and live presence/room channel) for cross-device sync — with a local-storage fallback so the app still runs standalone anywhere else.
+
+**Project Link:**
+- Live demo: https://aneethk007.github.io/Syntax/syntax.html
+- Repository: https://github.com/aneethk007/Syntax
+
+## Screenshots
+
+<!-- Add screenshots here, e.g.: -->
+<!-- ![The Board](screenshots/board.png) -->
+<!-- ![Ask the Class](screenshots/doubts.png) -->
+
+## Demo Video
+
+<!-- Add your demo video link here, e.g. a YouTube/Drive link, or drag the video file into this README while editing on GitHub -->
 
 ## What it does
 
@@ -58,8 +79,4 @@ This is a single HTML file, but it behaves differently depending on where you op
 - IBM Plex Sans + Lexend for type; a small custom `</>` mark as the logo.
 
 ## Project structure
-
-## Credits
-
-Built by **Aneeth** & **Anush**.
 
