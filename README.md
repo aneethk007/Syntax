@@ -24,6 +24,7 @@ A single-file classroom dashboard, originally built for a Teachers Day hackathon
 
 ## Demo Video
 
+https://drive.google.com/drive/folders/120FGx9bDkO6Qn85FLj_JL38celKAWjPF?usp=drive_link
 <!-- Add your demo video link here, e.g. a YouTube/Drive link, or drag the video file into this README while editing on GitHub -->
 
 ## What it does
