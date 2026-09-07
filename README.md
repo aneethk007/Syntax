@@ -18,6 +18,7 @@ A single-file classroom dashboard, originally built for a Teachers Day hackathon
 
 ## Screenshots
 
+https://drive.google.com/drive/folders/17OOk4SGXbzwUvL4GBnjTz2X7RASEN5O1?usp=sharing
 <!-- Add screenshots here, e.g.: -->
 <!-- ![The Board](screenshots/board.png) -->
 <!-- ![Ask the Class](screenshots/doubts.png) -->
